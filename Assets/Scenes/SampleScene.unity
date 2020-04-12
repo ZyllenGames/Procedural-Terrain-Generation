@@ -246,10 +246,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnMapDisplayType: 2
-  Width: 32
-  Height: 32
+  Width: 64
+  Height: 64
   seed: 3
-  NoiseScale: 10
+  NoiseScale: 3
   NumOctave: 3
   Lacunarity: 2
   Persistance: 0.5
@@ -257,9 +257,21 @@ MonoBehaviour:
   - Name: Water
     MaxHeight: 0.3
     Color: {r: 0, g: 0.68195224, b: 1, a: 0}
+  - Name: Sand
+    MaxHeight: 0.35
+    Color: {r: 0.9150943, g: 0.88142806, b: 0.07338022, a: 0}
   - Name: Land
-    MaxHeight: 1
+    MaxHeight: 0.5
     Color: {r: 0.5471698, g: 0.35255802, b: 0, a: 0}
+  - Name: Forest
+    MaxHeight: 0.8
+    Color: {r: 0.11213954, g: 0.6792453, b: 0.15225294, a: 0}
+  - Name: Mountain
+    MaxHeight: 0.95
+    Color: {r: 0.3018868, g: 0.28917256, b: 0.26628694, a: 0}
+  - Name: Snow
+    MaxHeight: 1
+    Color: {r: 1, g: 1, b: 1, a: 0}
   GridLength: 1
 --- !u!4 &672835335
 Transform:
