@@ -4,24 +4,32 @@ using UnityEngine;
 
 public static class MeshGenerator
 {
-    public static MeshData GenerateMeshData(float[,] heightMap, float gridLength)
+    public static MeshData GenerateMeshData(float[,] heightMap, float gridLength, float meshHeightMultipler, AnimationCurve heightCurve, int levelOfDetail)
     {
+        //LOD
+        int meshSampleIncrement = levelOfDetail == 0 ? 1 : levelOfDetail * 2;
+
         int width = heightMap.GetLength(1);
         int height = heightMap.GetLength(0);
-        int gridWidth = width - 1;
-        int gridHeight = height - 1;
+        float mapHalfWidth = (width - 1) * gridLength / 2f;
+        float mapHalfHeight = (height - 1) * gridLength / 2f;
+
+        int gridWidth = (width - 1) / meshSampleIncrement;
+        int gridHeight = (height - 1) / meshSampleIncrement;
+
         MeshData meshData = new MeshData(gridWidth, gridHeight);
 
-        float mapHalfWidth = gridWidth * gridLength / 2f;
-        float mapHalfHeight = gridHeight * gridLength / 2f;
-
-        //create vertices
-        for (int y = 0; y < height; y++)
+        for (int y = 0; y < height; y+= meshSampleIncrement)
         {
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < width; x+= meshSampleIncrement)
             {
-                Vector3 vertice = new Vector3(x * gridLength - mapHalfWidth, heightMap[y, x], y * gridLength - mapHalfHeight);
+                //create vertices
+                Vector3 vertice = new Vector3(x * gridLength - mapHalfWidth, heightCurve.Evaluate(heightMap[y, x]) * meshHeightMultipler, y * gridLength - mapHalfHeight);
                 meshData.AddVertice(vertice);
+
+                //create uvs
+                Vector2 uv = new Vector2((float)x / width, (float)y/ height);
+                meshData.AddUV(uv);
             }
         }
 
@@ -36,16 +44,6 @@ public static class MeshGenerator
                 int iVertRT = iVertLT + 1;
                 meshData.AddTriangle(iVertLB, iVertLT, iVertRB);
                 meshData.AddTriangle(iVertLT, iVertRT, iVertRB);
-            }
-        }
-
-        //create uvs
-        for (int y = 0; y < height; y++)
-        {
-            for (int x = 0; x < width; x++)
-            {
-                Vector2 uv = new Vector2((float)x / width, (float)y/ height);
-                meshData.AddUV(uv);
             }
         }
 

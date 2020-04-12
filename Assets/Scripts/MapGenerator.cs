@@ -13,8 +13,7 @@ public class MapGenerator : MonoBehaviour
 
     [Header("Map Info")]
     public MapDisplayType EnMapDisplayType;
-    public int Width;
-    public int Height;
+    int m_ChunkSize = 241;
     public int seed;
 
     [Header("Noise Info")]
@@ -24,11 +23,15 @@ public class MapGenerator : MonoBehaviour
     [Range(0.1f, 1f)]
     public float Persistance;
 
-    [Header("Region Info")]
-    public Region[] MapRegions;
-
     [Header("Mesh Info")]
     public float GridLength;
+    public float MeshHeightMultipler;
+    public AnimationCurve HeightCurve;
+    [Range(0, 6)]
+    public int LevelOfDetail;
+
+    [Header("Region Info")]
+    public Region[] MapRegions;
 
     MapDisplay m_MapDisplay;
 
@@ -39,7 +42,7 @@ public class MapGenerator : MonoBehaviour
 
     private void Update()
     {
-        float[,] heightMap = Noise.GenerateNoiseMap(Width, Height, seed, NoiseScale, NumOctave, Lacunarity, Persistance);
+        float[,] heightMap = Noise.GenerateNoiseMap(m_ChunkSize, m_ChunkSize, seed, NoiseScale, NumOctave, Lacunarity, Persistance);
         Color[,] colorMap = new Color[heightMap.GetLength(0), heightMap.GetLength(1)];
         for (int y = 0; y < heightMap.GetLength(0); y++)
         {
@@ -63,16 +66,15 @@ public class MapGenerator : MonoBehaviour
         else if (EnMapDisplayType == MapDisplayType.COLOR)
             m_MapDisplay.DisplayTexture(TextureGenerator.GenTextureByColorMap(colorMap));
         else if (EnMapDisplayType == MapDisplayType.MESH)
-            m_MapDisplay.DisplayMesh(MeshGenerator.GenerateMeshData(heightMap, GridLength), TextureGenerator.GenTextureByColorMap(colorMap));
+            m_MapDisplay.DisplayMesh(MeshGenerator.GenerateMeshData(heightMap, GridLength, MeshHeightMultipler, HeightCurve, LevelOfDetail), TextureGenerator.GenTextureByColorMap(colorMap));
 
     }
 
     private void OnValidate()
     {
-        Width = Width < 1 ? 1 : Width;
-        Height = Height < 1 ? 1 : Height;
         NumOctave = NumOctave < 1 ? 1 : NumOctave;
         Lacunarity = Lacunarity < 1 ? 1 : Lacunarity;
+        MeshHeightMultipler = MeshHeightMultipler < 1 ? 1 : MeshHeightMultipler;
     }
 }
 

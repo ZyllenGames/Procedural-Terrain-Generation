@@ -246,13 +246,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnMapDisplayType: 2
-  Width: 64
-  Height: 64
   seed: 3
   NoiseScale: 3
   NumOctave: 3
   Lacunarity: 2
   Persistance: 0.5
+  GridLength: 1
+  MeshHeightMultipler: 1
+  HeightCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.0057946094
+      outSlope: 0.0057946094
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.35269883
+      value: 0.002043752
+      inSlope: 0.0048276666
+      outSlope: 0.0048276666
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.16863382
+      outWeight: 0.10625828
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1.5417186
+      outSlope: 1.5417186
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  LevelOfDetail: 0
   MapRegions:
   - Name: Water
     MaxHeight: 0.3
@@ -272,7 +306,6 @@ MonoBehaviour:
   - Name: Snow
     MaxHeight: 1
     Color: {r: 1, g: 1, b: 1, a: 0}
-  GridLength: 1
 --- !u!4 &672835335
 Transform:
   m_ObjectHideFlags: 0
